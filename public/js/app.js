@@ -1,7 +1,7 @@
-window.onload = function () {
-	var Carousel = require('./carousel/carousel');
-	var Scene = require('./carousel/scene');
+var Carousel = require('./carousel/carousel');
+var Scene = require('./carousel/scene');
 
+window.onload = function () {
 	var bgImage = 'https://i.ytimg.com/vi/J6g53Hm0rq4/maxresdefault.jpg';
 	var CarouselEl = new Carousel('scene', bgImage);
 
@@ -11,7 +11,7 @@ window.onload = function () {
 	var screenFourBG = 'http://wowslider.com/sliders/demo-77/data1/images/field175959_1920.jpg';
 	var screenFiveBG = 'http://wowslider.com/sliders/demo-77/data1/images/idaho239691_1920.jpg';
 
-	var scene = new Scene(sceneOneBG,"#aa00ff");
+	var scene = new Scene(sceneOneBG,"#aaf0ff");
 	var scene2 = new Scene(sceneTwoBG, "#ffff00");
 	var scene3 = new Scene(screenThreeBG, "#f0fff0");
 	var scene4 = new Scene(screenFourBG, "#f0aaf0");

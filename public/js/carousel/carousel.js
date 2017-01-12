@@ -1,3 +1,5 @@
+var carouselEmitter = require('../utils/events');
+
 var Carousel = function(parent, bgImage) {
 	this.carousel = document.createElement('div');
 	this.carousel.id = 'carousel';
@@ -14,12 +16,13 @@ var Carousel = function(parent, bgImage) {
 	var grandParent = document.getElementById(parent);
 	grandParent.appendChild(this.carousel);
 
+	carouselEmitter.on('update', this.animation.bind(this));
+
 	this.createArrows();
 	this.image.onload = function(){
 
 	}.bind(this);
 	this.image.src = bgImage;
-
 	return this;
 };
 
@@ -40,6 +43,10 @@ Carousel.prototype.addElements = function(array) {
 	}
 	this.initScene();
 	return this;
+};
+
+Carousel.prototype.log = function(array) {
+	console.warn(7777777);
 };
 
 Carousel.prototype.curretnElement = function(customeIndex) {
@@ -69,19 +76,6 @@ Carousel.prototype.prevElement = function() {
 
 	return this.curretnElement();
 };
-
-// Carousel.prototype.removeElements = function(array) {
-// 	if(type) {
-// 		array.map(function(el, i) {
-// 			this.carousel.removeChild(el)
-// 			this.elements.splice(i, 1);
-// 		});
-// 	} else {
-// 		this.elements.push(array);
-// 	}
-
-// 	return this.elements;
-// }
 
 Carousel.prototype.createArrows = function() {
 	this.leftArrow = document.createElement('div');
@@ -141,17 +135,16 @@ Carousel.prototype.eventEmmiter = function(subject, event, callback) {
 };
 
 Carousel.prototype.animation = function() {
+	console.warn(this.nextElement());
 	this.nextAnimationElement = this.nextElement();
-	this.nextAnimationElement.controls().play(this.animation.bind(this))
+	this.nextAnimationElement.controls().play()
 };
 
 Carousel.prototype.initScene = function() {
 	var position = this.hidePosition();
 	this.currentAnimationElement = this.curretnElement();
-	function cb() {
-		console.warn('play next scene');
-	}
-	this.currentAnimationElement.controls().play(this.animation.bind(this));
+
+	this.currentAnimationElement.controls().play();
 };
 
 Carousel.prototype.playNextElement = function(tween) {
