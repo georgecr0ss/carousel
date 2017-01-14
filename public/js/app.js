@@ -11,12 +11,40 @@ window.onload = function () {
 	var screenFourBG = 'http://wowslider.com/sliders/demo-77/data1/images/field175959_1920.jpg';
 	var screenFiveBG = 'http://wowslider.com/sliders/demo-77/data1/images/idaho239691_1920.jpg';
 
-	var scene = new Scene(sceneOneBG,"#aaf0ff");
-	var scene2 = new Scene(sceneTwoBG, "#ffff00");
-	var scene3 = new Scene(screenThreeBG, "#f0fff0");
-	var scene4 = new Scene(screenFourBG, "#f0aaf0");
-	var scene5 = new Scene(screenFiveBG, "#f0ffaa");
+	// var scene = new Scene(sceneOneBG,"#aaf0ff");
+	// var scene2 = new Scene(sceneTwoBG, "#ffff00");
+	// var scene3 = new Scene(screenThreeBG, "#f0fff0");
+	// var scene4 = new Scene(screenFourBG, "#f0aaf0");
+	// var scene5 = new Scene(screenFiveBG, "#f0ffaa");
+	
+	var array = [
+		{
+			image: sceneOneBG,
+			color: "#aaf0ff",
+			parent: 'carousel'
+		},
+		{
+			image: sceneTwoBG,
+			color: "#ffff00",
+			parent: 'carousel'
+		},
+		{
+			image: screenThreeBG,
+			color: "#f0aaf0",
+			parent: 'carousel'
+		},
+		{
+			image: screenFourBG,
+			color: "#f0ffaa",
+			parent: 'carousel'
+		},
+		{
+			image: screenFiveBG,
+			color: "#f0ffaa",
+			parent: 'carousel'
+		}
+	];
 
-	CarouselEl.addElements([scene,scene2,scene3,scene4,scene5]);
+	CarouselEl.anime(array);
 
 }

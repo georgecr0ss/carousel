@@ -1,4 +1,5 @@
 var carouselEmitter = require('../utils/events');
+var Scene = require('./scene');
 
 var Carousel = function(parent, bgImage) {
 	this.carousel = document.createElement('div');
@@ -26,6 +27,8 @@ var Carousel = function(parent, bgImage) {
 	return this;
 };
 
+Carousel.prototype.scene = Scene;
+
 Carousel.prototype.addElements = function(array) {
 	var type = typeof array === 'object';
 
@@ -45,8 +48,10 @@ Carousel.prototype.addElements = function(array) {
 	return this;
 };
 
-Carousel.prototype.log = function(array) {
-	console.warn(7777777);
+Carousel.prototype.anime = function(array) { 
+	var screens = array.map(function(element) {
+		return new this.scene(element);
+	}, this);
 };
 
 Carousel.prototype.curretnElement = function(customeIndex) {
