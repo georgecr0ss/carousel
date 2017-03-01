@@ -4,11 +4,12 @@ var carouselEmitter = require('../utils/events');
 console.warn(carouselEmitter);
 
 
-var Scene = function(data) { 
+var Scene = function(data, nextScreen) {
 	// console.warn(data);
 	this.element = document.createElement('div');
 	this.newImage = new Image();
 	this.parent = document.getElementById(data.parent);
+	console.warn(this.parent);
 	this.parent.appendChild(this.element);
 
 	this.element.className = 'carouselScene';
@@ -19,6 +20,7 @@ var Scene = function(data) {
 	this.shoulPause = false;
 	this.position = 0;
 	this.element.style.backgroundImage = "url('./pictures/preloader_gear.gif')";
+	this.element.style.backgroundColor = data.color;
 
 	this.newImage.onload = function() {
 		this.element.style.backgroundImage = "url('" + this.newImage.src + "')";
@@ -29,49 +31,23 @@ var Scene = function(data) {
 
 	this.newImage.src = this.image;
 
-	this.sceneTransition.call(this);
+	this.sceneTransition.call(this, nextScreen);
+
 	return this;
 };
 
-Scene.prototype.sceneTransition = function() {
-	
-		this.tween = new TimelineMax({paused: true, onStart: function() {
-			this.setPosition();
-		}.bind(this)}); 
+Scene.prototype.sceneTransition = function(nextScreen) {
+		this.left = this.parent.getBoundingClientRect().width * -1;
+		var time = 1.5;
+		this.tween = new TimelineMax({paused: true});
 
 		this.tween
-			.set(this.element, {left: this.parent.getBoundingClientRect().width})
-			.to(this.element, 1, {left: 0, ease: Power1.easeOut, onComplete:function() {console.warn('zcxxzcxzc');} })
-			.to(this.element, 1, {left:  -this.parent.getBoundingClientRect().width, ease: Power1.easeOut, onStart: function() {
-				// carouselEmitter.emit('update')
-			}, onComplete: function() {
-					console.warn('almost finish');
-					// this.controls().kill.call(this);
-			}.bind(this)}, '+=2.5')
-};
-
-Scene.prototype.setPosition = function() {
-	// this.elBoundings = 
-
-	return this.position = {
-		right: this.elBoundings.right,
-		width: this.elBoundings.width
-	};
-};
-
-Scene.prototype.controls = function() {
-	return {
-		play: function() {
-			this.sceneTransition(this.setPosition());
-			this.tween.play();
-		}.bind(this),
-		pause: function() {
-
-		},
-		kill: function() {
-			this.tween.kill();
-		}
-	};
+			.to(this.element, time, {left: 0})
+			.set(this.element, {left: this.left })
+			.to(this.element, time, {left:  -1300 ,
+				 onStart: function() {
+					 nextScreen();
+			}})
 };
 
 module.exports = Scene;

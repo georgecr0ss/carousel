@@ -27,8 +27,8 @@ header {
 #scene {
 	position: relative;
 	height: 392px;
-	border: 1px solid darkcyan;
-	background-color: #000;
+	border: 1px solid yellow;
+	background-color: darkcyan;
 	/*overflow: hidden;*/
 }
 
@@ -56,35 +56,27 @@ header {
 
 .carouselScene {
 	position: absolute;
-	top: 0px;
+	top: 2%;
 	width: 100%;
-	height: 100%;
+	height: 96%;
 	left: 100%;
 	z-index: 2;
-	border: 1px solid orangered;
-
-	background-repeat: no-repeat;
-	background-size: contain;
-	-webkit-background-size: contain;
-	-moz-background-size: contain;
-	-ms-background-size: contain;
-	background-position: center center;
-	-webkit-background-position: center center;
-	-moz-background-position: center center;
-	-ms-background-position: center center;
+	padding: 5px;
+	opacity: 0.5;
+	border: 1px solid purple;
+ 	background-color: white;
+	 -webkit-transition: left ease 1s;
+	 -moz-transition: left ease 1s;
+	 transition: left ease 1s;
 
 }
 .arrows {
-	display: none;
-}
-
-#leftArrow, #rightArrow {
 	position: absolute;
 	cursor: pointer;
 	top: 30%;
 	height: 40%;
 	width: 80px;
-	border: 1px solid springgreen;
+	border: 1px solid orangered;
 	z-index: 15;
 }
 

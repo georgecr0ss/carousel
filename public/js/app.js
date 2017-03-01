@@ -1,9 +1,9 @@
+// var Carousel = require('./carousel/demo');
 var Carousel = require('./carousel/carousel');
-var Scene = require('./carousel/scene');
 
 window.onload = function () {
 	var bgImage = 'https://i.ytimg.com/vi/J6g53Hm0rq4/maxresdefault.jpg';
-	var CarouselEl = new Carousel('scene', bgImage);
+	var CarouselEl = new Carousel();
 
 	var sceneOneBG = 'http://www.bentleymotors.com/content/dam/bentley/Master/Models/Hero/PAST%20MODELS/ContinentalSprSprts_Hero_1920x670.jpg/_jcr_content/renditions/cq5dam.web.1280.1280.jpeg.image_file.1116.389.file/cq5dam.web.1280.1280.jpg';
 	var sceneTwoBG = 'https://i.kinja-img.com/gawker-media/image/upload/s--qp2F6uPK--/c_scale,fl_progressive,q_80,w_800/im4ymrlztv9j1befkpoa.jpg';
@@ -11,40 +11,45 @@ window.onload = function () {
 	var screenFourBG = 'http://wowslider.com/sliders/demo-77/data1/images/field175959_1920.jpg';
 	var screenFiveBG = 'http://wowslider.com/sliders/demo-77/data1/images/idaho239691_1920.jpg';
 
-	// var scene = new Scene(sceneOneBG,"#aaf0ff");
-	// var scene2 = new Scene(sceneTwoBG, "#ffff00");
-	// var scene3 = new Scene(screenThreeBG, "#f0fff0");
-	// var scene4 = new Scene(screenFourBG, "#f0aaf0");
-	// var scene5 = new Scene(screenFiveBG, "#f0ffaa");
-	
 	var array = [
 		{
-			image: sceneOneBG,
+			// image: sceneOneBG,
 			color: "#aaf0ff",
 			parent: 'carousel'
 		},
 		{
-			image: sceneTwoBG,
+			// image: sceneTwoBG,
 			color: "#ffff00",
 			parent: 'carousel'
 		},
 		{
-			image: screenThreeBG,
+			// image: screenThreeBG,
 			color: "#f0aaf0",
 			parent: 'carousel'
 		},
 		{
-			image: screenFourBG,
+			// image: screenFourBG,
 			color: "#f0ffaa",
 			parent: 'carousel'
 		},
 		{
-			image: screenFiveBG,
+			// image: screenFiveBG,
 			color: "#f0ffaa",
 			parent: 'carousel'
 		}
 	];
 
-	CarouselEl.anime(array);
+	// CarouselEl.anime(array);
+	var sceneTransition = function(nextScreen) {
+		var time = 2;
+		var carouselClass = document.querySelectorAll(".carouselScene")
+		this.tween = new TimelineMax({paused: false});
 
+		this.tween
+			.to(carouselClass[0], time, {left: 0, ease: Bounce.easeOut})
+			.to(carouselClass[1], time, {left: 0, ease: Bounce.easeOut})
+			.to(carouselClass[2], time, {left: 0, ease: Bounce.easeOut})
+			.to(carouselClass[3], time, {left: 0, ease: Bounce.easeOut})
+	}
+	sceneTransition();
 }

@@ -12,10 +12,8 @@ gulp.task('build', function() {
 		extentions: ['.js'],
 		debug: true
 	})
-	.transform('babelify', {
-		presets: ['es2015']
-	})
 	.bundle()
+    .on('error', onError)
   	.pipe(source('bundle.js'))
 	.pipe(gulp.dest('./public/dist'))
 });
@@ -23,5 +21,10 @@ gulp.task('build', function() {
 gulp.task('watch', ['build'], function() {
 	gulp.watch('./public/js/**/*.js', ['build'])
 });
+
+function onError(err) {
+  console.log(err.SyntaxError);
+  this.emit('end');
+}
 
 gulp.task('default', ['watch']);

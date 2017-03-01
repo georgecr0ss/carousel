@@ -3,17 +3,19 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Carousel</title>
+
+	<script src="./dist/TweenMax.min.js" type="text/javascript" charset="utf-8" async defer></script>
+
 	<link rel="stylesheet" type="text/css" href="./css/styles.css">
 </head>
 <body>
 	<header>
 	</header><!-- /header -->
-	<div id="container">
-		<div id="scene">
-		</div>	<div id="coffe-machines">
-		</div>
+	<div id="container"><div id="scene">
+		<div id="carousel"><div id="leftArrow" class="arrows"></div><div id="rightArrow" class="arrows"></div><div class="carouselScene" style="background-image: url(&quot;./pictures/preloader_gear.gif&quot;); background-color: rgb(170, 240, 255);"></div><div class="carouselScene" style="background-image: url(&quot;./pictures/preloader_gear.gif&quot;); background-color: rgb(255, 255, 0);"></div><div class="carouselScene" style="background-image: url(&quot;./pictures/preloader_gear.gif&quot;); background-color: rgb(240, 170, 240);"></div><div class="carouselScene" style="background-image: url(&quot;./pictures/preloader_gear.gif&quot;); background-color: rgb(240, 255, 170);"></div><div class="carouselScene" style="background-image: url(&quot;./pictures/preloader_gear.gif&quot;); background-color: rgb(240, 255, 170);"></div></div></div>
 	</div>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js" type="text/javascript" charset="utf-8" async defer></script>
-	<script src="./dist/bundle.js" type="text/javascript" charset="utf-8" async defer></script>
+
+	<button id="prev">prev</button>
+	<button id="next">next</button><script src="./dist/bundle.js" type="text/javascript" charset="utf-8" async defer></script>
 </body>
 </html>

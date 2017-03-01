@@ -1,6 +1,7 @@
 var carouselEmitter = require('../utils/events');
 var Scene = require('./scene');
 
+
 var Carousel = function(parent, bgImage) {
 	this.carousel = document.createElement('div');
 	this.carousel.id = 'carousel';
@@ -12,46 +13,52 @@ var Carousel = function(parent, bgImage) {
 	this.loopIndexCorrection = 0;
 
 	this.arrowState = false;
-	this.playCarousel = new TimelineMax();
+	// this.playCarousel = new TimelineMax();
 
-	var grandParent = document.getElementById(parent);
+	var grandParent = document.getElementById("scene");
 	grandParent.appendChild(this.carousel);
-
-	carouselEmitter.on('update', this.animation.bind(this));
 
 	this.createArrows();
 	this.image.onload = function(){
 
 	}.bind(this);
 	this.image.src = bgImage;
+	this.anime.bind(this)
 	return this;
 };
 
-Carousel.prototype.scene = Scene;
+Carousel.prototype.Scene = Scene;
 
-Carousel.prototype.addElements = function(array) {
-	var type = typeof array === 'object';
-
-	if(type) {
-		var self = this;
-		array.map(function(el) {
-			if(typeof el === 'object') {
-				self.appendElement(el.element)
-			}
-
-			self.elements.push(el);
-		});
-	} else {
-		this.elements.push(array);
-	}
-	this.initScene();
-	return this;
-};
-
-Carousel.prototype.anime = function(array) { 
-	var screens = array.map(function(element) {
-		return new this.scene(element);
+Carousel.prototype.anime = function(array) {
+	var self = this;
+	this.screens = array.map(function(element) {
+	// debugger;
+		return new this.Scene(element, nextScreen.bind(this));
 	}, this);
+
+	this.index = 0;
+
+	function nextScreen() {
+		// self.screens[self.index].tween.kill();
+		self.index++;
+		self.index = (self.index) % self.screens.length;
+		console.warn(self.screens[self.index]);
+		self.screens[self.index].tween.play();
+	}
+
+	function playFirstScreen () {
+		self.screens[self.index].tween.play();
+	}
+
+	playFirstScreen();
+
+	// this.callNextScreen = setInterval(function () {
+	// 	self.nextScreen();
+	// }, 2500);
+
+};
+Carousel.prototype.stop = function () {
+	clearTimeout(self.nextScreen());
 };
 
 Carousel.prototype.curretnElement = function(customeIndex) {
@@ -70,18 +77,6 @@ Carousel.prototype.curretnElement = function(customeIndex) {
 	return this.elements[ index ];
 };
 
-Carousel.prototype.nextElement = function() {
-	console.error(this.loopIndex);
-	this.loopIndex++;
-	return this.curretnElement();
-};
-
-Carousel.prototype.prevElement = function() {
-	this.loopIndex += this.elements.length - 1;
-
-	return this.curretnElement();
-};
-
 Carousel.prototype.createArrows = function() {
 	this.leftArrow = document.createElement('div');
 	this.rightArrow = document.createElement('div');
@@ -97,12 +92,8 @@ Carousel.prototype.createArrows = function() {
 
 	this.arrows = document.getElementsByClassName('arrows');
 
-
-	this.leftArrow.removeEventListener("click", this.playNextElement.bind(this, true))
-	this.rightArrow.removeEventListener("click", this.playPrevElement.bind(this))
-
-	this.carousel.addEventListener('mouseover', this.arrowsState.bind(this, true));
-	this.carousel.addEventListener('mouseout', this.arrowsState.bind(this, false));
+	// this.carousel.addEventListener('mouseover', this.arrowsState.bind(this, true));
+	// this.carousel.addEventListener('mouseout', this.arrowsState.bind(this, false));
 };
 
 Carousel.prototype.hidePosition = function() {
@@ -115,10 +106,20 @@ Carousel.prototype.arrowsState = function(state) {
 		case true:
 			this.arrows[0].style.display = 'inline';
 			this.arrows[1].style.display = 'inline';
+
+			clearInterval(this.callNextScreen);
+			this.screens[this.index].tween.pause();
 			break;
 		case false:
 			this.arrows[0].style.display = 'none';
 			this.arrows[1].style.display = 'none';
+			var self = this;
+			this.screens[this.index].tween.play();
+			// console.warn(this.callNextScreen);
+			// setInterval(function() {
+			// 	self.nextScreen()
+			// }, 2500);
+			// this.screens[this.index].tween.play();
 			break;
 		default:
 			break;
@@ -128,52 +129,6 @@ Carousel.prototype.arrowsState = function(state) {
 Carousel.prototype.appendElement = function(child) {
 	this.child = child;
 	this.carousel.appendChild(this.child);
-};
-
-
-Carousel.prototype.eventEmmiter = function(subject, event, callback) {
-	this.subject = subject;
-	this.event = event;
-	this.callback = callback;
-
-	this.subject.addEventListener(this.event, this.callback);
-};
-
-Carousel.prototype.animation = function() {
-	console.warn(this.nextElement());
-	this.nextAnimationElement = this.nextElement();
-	this.nextAnimationElement.controls().play()
-};
-
-Carousel.prototype.initScene = function() {
-	var position = this.hidePosition();
-	this.currentAnimationElement = this.curretnElement();
-
-	this.currentAnimationElement.controls().play();
-};
-
-Carousel.prototype.playNextElement = function(tween) {
-	var current = this.curretnElement().element;
-	var next = this.nextElement().element;
-	var nextElPos = this.hidePosition();
-	var tweenNextElement = new TimelineMax();
-
-	tweenNextElement
-		.set(next, {left: nextElPos})
-		.to(current, 1, {left: -nextElPos, ease: Power2.easeOut})
-		.to(next, 1, {left: 0, ease: Power2.easeOut}, '-=1')
-};
-
-Carousel.prototype.playPrevElement = function() {
-	var current = this.curretnElement().element;
-	var prev = this.prevElement().element;
-	var currPos = this.hidePosition();
-	var tweenPrevElement = new TimelineMax();
-
-	tweenPrevElement
-		.set(prev, {left: -currPos, ease: Power2.easeOut})
-		.to(current, 0.6, {left: currPos, ease: Power2.easeOut})
-		.to(prev, 0.6, {left: 0, ease: Power2.easeOut})
 };
 
 module.exports = Carousel;
